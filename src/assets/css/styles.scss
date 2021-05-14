@@ -1,0 +1,77 @@
+@import "theme-colors";
+html {
+  overflow-x: hidden;
+}
+.app-background {
+  background-color: var(--app-background-color);
+}
+.title {
+  color: var(--dynamic-title-color);
+}
+.description {
+  color: var(--dynamic-description-color);
+}
+.projectDone {
+  color: var(--dynamic-projectDone-color);
+}
+.checkbox {
+  color: var(--dynamic-checkbox-color);
+}
+.rotateDown {
+  color: var(--dynamic-arrow-color);
+}
+.doneButton {
+  color: var(--dynamic-button-color);
+}
+.editButton {
+  color: var(--dynamic-button-color);
+}
+.removeButton {
+  color: var(--dynamic-button-color);
+}
+.doneButton:hover {
+  border: 3px solid #42b942;
+  color: #42b942;
+}
+.editButton:hover {
+  border: 3px solid #4289b9;
+  color: #4289b9;
+}
+.removeButton:hover {
+  border: 3px solid #b94242;
+  color: #b94242;
+}
+.doneButtonCompleted:hover {
+  border: 3px solid #b9b742;
+  color: #b9b742;
+}
+.sorterNavigation:hover {
+  color: var(--dynamic-sorterNavigation-color);
+}
+#nav a:hover {
+  color: var(--dynamic-navIcon-color);
+}
+input.title {
+  background-color: var(--dynamic-input-bgcolor);
+  color: var(--dynamic-description-color);
+}
+textarea.description {
+  background-color: var(--dynamic-input-bgcolor);
+  color: var(--dynamic-description-color);
+}
+button.button {
+  background-color: var(--dynamic-input-bgcolor);
+  color: var(--dynamic-addButton-color);
+}
+button.button.isValid {
+  color: var(--dynamic-addButton-valid-color);
+  border-color: var(--dynamic-addButton-valid-color);
+}
+input.theme-switch {
+  display: none;
+}
+input.theme-switch + label {
+  cursor: pointer;
+  color: var(--dynamic-theme-switch-color);
+  user-select: none;
+}

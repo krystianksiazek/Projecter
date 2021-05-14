@@ -1,18 +1,29 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <ProjectList
+      :projects="projects"
+      :error="error"
+      :projectsCopy="projectsCopy"
+      :DBexist="DBexist"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+<script>
+import ProjectList from "@/components/ProjectList.vue";
+import projectManagement from "../composables/projectManagement";
+import { ref } from "vue";
 
-export default defineComponent({
-  name: 'Home',
+export default {
+  name: "Home",
   components: {
-    HelloWorld,
+    ProjectList
   },
-});
+  setup() {
+    const { projects, error, load, DBexist } = projectManagement();
+    load();
+    const projectsCopy = ref(projects);
+    return { projects, error, projectsCopy, DBexist };
+  }
+};
 </script>

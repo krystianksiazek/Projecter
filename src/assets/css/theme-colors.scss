@@ -1,0 +1,25 @@
+:root {
+  --dynamic-projectDone-color: #b8b8b8;
+  --dynamic-button-color: #2c3e50;
+  --dynamic-checkbox-color: #2c3e50;
+  --dynamic-arrow-color: #2c3e50;
+  --dynamic-addButton-color: #808080;
+  --dynamic-sorterNavigation-color: #42b983;
+  --dynamic-navIcon-color: #42b983;
+}
+
+[theme="dark"] {
+  --app-background-color: #091a28;
+  --dynamic-title-color: #f5f5f5;
+  --dynamic-description-color: #c8c8c8;
+  --dynamic-theme-switch-color: #fff237;
+  --dynamic-button-color: #808080;
+  --dynamic-checkbox-color: #808080;
+  --dynamic-arrow-color: #808080;
+  --dynamic-addButton-color: #5f5f5f;
+  --dynamic-addButton-valid-color: #cccccc;
+  --dynamic-input-bgcolor: #182f42;
+  --dynamic-projectDone-color: #424242;
+  --dynamic-sorterNavigation-color: #42b983a8;
+  --dynamic-navIcon-color: #42b983a8;
+}

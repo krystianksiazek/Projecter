@@ -1,30 +1,56 @@
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
-  <router-view/>
+  <Navbar />
+  <router-view v-slot="{ Component }">
+    <transition
+      name="route"
+      mode="out-in"
+      @before-enter="beforeEnter"
+      @enter="enter"
+      @before-leave="beforeLeave"
+      @leave="leave"
+    >
+      <component :is="Component"></component>
+    </transition>
+  </router-view>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import gsap from "gsap";
+import Navbar from './components/Navbar.vue';
 
-#nav {
-  padding: 30px;
+export default {
+  name: "App",
+  components: { Navbar },
+  setup() {
+    const beforeEnter = (el) => {
+      el.style.opacity = 0.5;
+      el.style.transform = "translateX(100px)";
+    };
+    const enter = (el, done) => {
+      gsap.to(el, {
+        opacity: 1,
+        x: 0,
+        duration: 0.5,
+        onComplete: done,
+      });
+    };
+    const beforeLeave = (el) => {
+      el.style.opacity = 1;
+    };
+    const leave = (el, done) => {
+      gsap.to(el, {
+        keyframes: [
+          { opacity: 0, transform: "translateX(-100px)", delay: 0.5 },
+        ],
+        onComplete: done,
+      });
+    };
+    
+    return { beforeEnter, enter, beforeLeave, leave };
+  },
+};
+</script>
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+<style>
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
