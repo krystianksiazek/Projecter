@@ -51,6 +51,9 @@ html {
 #nav a:hover {
   color: var(--dynamic-navIcon-color);
 }
+.deleteAllDataBtn:hover {
+  color: var(--dynamic-navIcon-color);
+}
 input.title {
   background-color: var(--dynamic-input-bgcolor);
   color: var(--dynamic-description-color);
