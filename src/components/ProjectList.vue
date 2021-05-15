@@ -1,61 +1,61 @@
 <template>
   <div>
     <div class="optionsWrapper">
-      <transition name="fade" mode="out-in">
-        <div :class="{ checkboxChecked: sortOption != 0 }" class="checkbox">
-          <span
-            class="material-icons sorterNavigation"
-            data-v-9c9b7d9e=""
-            @click="sortToggleDown()"
-          >
-            arrow_downward
-          </span>
-          <transition :name="switchSortingDirection" mode="out-in">
-            <span class="checked sorter" v-if="sortOption == 1">
-              Only not completed
-            </span>
-            <span class="checked sorter" v-else-if="sortOption == 2">
-              Only completed
-            </span>
-            <span class="checked sorter" v-else-if="sortOption == 3">
-              First not completed
-            </span>
-            <span class="checked sorter" v-else-if="sortOption == 4">
-              First completed
-            </span>
-            <span class="checked sorter" v-else-if="sortOption == 5">
-              First newest
-            </span>
-            <span class="checked sorter" v-else-if="sortOption == 6">
-              First oldest
-            </span>
-            <span class="sorter" v-else-if="sortOption == 0"
-              >Unsorted list</span
-            >
-          </transition>
-          <span
-            class="material-icons sorterNavigation"
-            data-v-9c9b7d9e=""
-            @click="sortToggleUp()"
-          >
-            arrow_upward
-          </span>
-        </div>
-      </transition>
-      <transition name="fade" mode="out-in">
-        <div
-          @click="removeOnCompleteToggle()"
-          :class="{ checkboxChecked: removeOnComplete }"
-          class="checkbox removeOnCompleteBtn"
+      <div :class="{ checkboxChecked: sortOption != 0 }" class="checkbox">
+        <span
+          class="material-icons sorterNavigation"
+          data-v-9c9b7d9e=""
+          @click="sortToggleDown()"
         >
-          <transition name="switchSortingUp" mode="out-in">
-            <span class="checked" v-if="removeOnComplete">
-              Remove on complete
-            </span>
-            <span v-else>Don't remove on complete</span>
-          </transition>
-        </div>
-      </transition>
+          arrow_downward
+        </span>
+        <transition :name="switchSortingDirection" mode="out-in">
+          <span class="checked sorter" v-if="sortOption == 1">
+            Only not completed
+          </span>
+          <span class="checked sorter" v-else-if="sortOption == 2">
+            Only completed
+          </span>
+          <span class="checked sorter" v-else-if="sortOption == 3">
+            First not completed
+          </span>
+          <span class="checked sorter" v-else-if="sortOption == 4">
+            First completed
+          </span>
+          <span class="checked sorter" v-else-if="sortOption == 5">
+            First newest
+          </span>
+          <span class="checked sorter" v-else-if="sortOption == 6">
+            First oldest
+          </span>
+          <span class="sorter" v-else-if="sortOption == 0">Unsorted list</span>
+        </transition>
+        <span
+          class="material-icons sorterNavigation"
+          data-v-9c9b7d9e=""
+          @click="sortToggleUp()"
+        >
+          arrow_upward
+        </span>
+      </div>
+      <span
+        @click="$emit('open-modal')"
+        class="material-icons deleteAllDataBtn"
+      >
+        delete_forever
+      </span>
+      <div
+        @click="removeOnCompleteToggle()"
+        :class="{ checkboxChecked: removeOnComplete }"
+        class="checkbox removeOnCompleteBtn"
+      >
+        <transition name="switchSortingUp" mode="out-in">
+          <span class="checked" v-if="removeOnComplete">
+            Remove on complete
+          </span>
+          <span v-else>Don't remove on complete</span>
+        </transition>
+      </div>
     </div>
     <div>
       <transition name="switch" mode="out-in">
@@ -384,6 +384,14 @@ input:checked + .slider:before {
   font-weight: bold;
   transition: 0.2s;
   letter-spacing: 1px;
+}
+.deleteAllDataBtn {
+  font-size: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
 }
 .sorter {
   flex-grow: 4;
