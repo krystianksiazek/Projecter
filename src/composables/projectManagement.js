@@ -26,7 +26,7 @@ const projectManagement = () => {
       encodeURIComponent(value) +
       (!expirationDays
         ? ""
-        : "; expires=" + expirationDate.toUTCString() + "; Secure");
+        : "; expires=" + expirationDate.toUTCString() + "; SameSite=None" + "; Secure");
   }
   function getCookieValue(name) {
     let result = document.cookie.match(
@@ -38,6 +38,9 @@ const projectManagement = () => {
     } else if (result == "false") {
       return false;
     } else return result;
+  }
+  function deleteCookie(name) {
+    document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   }
   function load() {
     if (getCookieValue("DBexist")) {
@@ -58,7 +61,7 @@ const projectManagement = () => {
       DBexist.value = false;
     }
   }
-  return { projects, error, load, makeDB, DBexist, setCookie, getCookieValue };
+  return { projects, error, load, makeDB, DBexist, setCookie, getCookieValue, deleteCookie };
 };
 
 export default projectManagement;
