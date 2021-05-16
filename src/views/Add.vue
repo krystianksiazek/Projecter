@@ -8,7 +8,7 @@
     >
       <h2 style="margin: 0 0 20px 0">Create a new project</h2>
     </transition>
-    <transition name="list" appear>
+    <transition name="component" appear>
       <div class="inputWrapper">
         <input class="title" type="text" v-model="title" placeholder="Title" />
         <textarea
@@ -225,36 +225,36 @@ export default {
   pointer-events: auto;
   color: #2c3e50;
 }
-.list-enter-from {
+.component-enter-from {
   opacity: 0;
   transform: scale(0.5);
 }
-.list-enter-active {
+.component-enter-active {
   transition: all 0.5s ease;
 }
-.list-leave-to {
+.component-leave-to {
   opacity: 0;
   transform: scale(0.5);
 }
-.list-leave-active {
+.component-leave-active {
+  transition: all 0.5s ease;
+}
+.inputWrapper {
   transition: all 0.5s ease;
 }
 @media (max-width: 1000px) {
   .inputWrapper {
     width: 60%;
-    transition: width 0.2s ease;
   }
 }
 @media (max-width: 800px) {
   .inputWrapper {
     width: 75%;
-    transition: width 0.2s ease;
   }
 }
 @media (max-width: 600px) {
   .inputWrapper {
     width: 90%;
-    transition: width 0.2s ease;
   }
 }
 </style>
