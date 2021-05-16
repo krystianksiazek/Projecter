@@ -29,6 +29,17 @@ html {
 .removeButton {
   color: var(--dynamic-button-color);
 }
+.modalWrapper {
+  background-color: var(--dynamic-modal-background);
+}
+.close:before,
+.close:after {
+  background-color: var(--dynamic-button-color);
+}
+.close:hover:before,
+.close:hover:after {
+  background-color: var(--dynamic-navIcon-color);
+}
 .doneButton:hover {
   border: 3px solid #42b942;
   color: #42b942;
