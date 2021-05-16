@@ -1,106 +1,111 @@
 <template>
-  <div>
-    <div class="optionsWrapper">
-      <div :class="{ checkboxChecked: sortOption != 0 }" class="checkbox">
-        <span
-          class="material-icons sorterNavigation"
-          data-v-9c9b7d9e=""
-          @click="sortToggleDown()"
-        >
-          arrow_downward
-        </span>
-        <transition :name="switchSortingDirection" mode="out-in">
-          <span class="checked sorter" v-if="sortOption == 1">
-            Only not completed
-          </span>
-          <span class="checked sorter" v-else-if="sortOption == 2">
-            Only completed
-          </span>
-          <span class="checked sorter" v-else-if="sortOption == 3">
-            First not completed
-          </span>
-          <span class="checked sorter" v-else-if="sortOption == 4">
-            First completed
-          </span>
-          <span class="checked sorter" v-else-if="sortOption == 5">
-            First newest
-          </span>
-          <span class="checked sorter" v-else-if="sortOption == 6">
-            First oldest
-          </span>
-          <span class="sorter" v-else-if="sortOption == 0">Unsorted list</span>
-        </transition>
-        <span
-          class="material-icons sorterNavigation"
-          data-v-9c9b7d9e=""
-          @click="sortToggleUp()"
-        >
-          arrow_upward
-        </span>
-      </div>
-      <span
-        @click="$emit('open-modal')"
-        class="material-icons deleteAllDataBtn"
-      >
-        delete_forever
-      </span>
-      <div
-        @click="removeOnCompleteToggle()"
-        :class="{ checkboxChecked: removeOnComplete }"
-        class="checkbox removeOnCompleteBtn"
-      >
-        <transition name="switchSortingUp" mode="out-in">
-          <span class="checked" v-if="removeOnComplete">
-            Remove on complete
-          </span>
-          <span v-else>Don't remove on complete</span>
-        </transition>
-      </div>
-    </div>
+  <transition name="component" appear>
     <div>
-      <transition name="switch" mode="out-in">
-        <div class="projects" v-if="projectsCopy.length">
-          <transition-group
-            appear
-            name="list"
-            @before-enter="beforeEnter"
-            @enter="enter"
-            @before-leave="beforeLeave"
-            @leave="leave"
+      <div class="optionsWrapper">
+        <div :class="{ checkboxChecked: sortOption != 0 }" class="checkbox">
+          <span
+            class="material-icons sorterNavigation"
+            data-v-9c9b7d9e=""
+            @click="sortToggleDown()"
           >
-            <div
-              v-for="(project, index) in projectsCopySorter(sortOption)"
-              v-if="projectsCopySorter(sortOption).length"
-              :key="project.id"
-              :data-index="index"
-              class="project"
-              :class="{ completed: project.completed }"
+            arrow_downward
+          </span>
+          <transition :name="switchSortingDirection" mode="out-in">
+            <span class="checked sorter" v-if="sortOption == 1">
+              Only not completed
+            </span>
+            <span class="checked sorter" v-else-if="sortOption == 2">
+              Only completed
+            </span>
+            <span class="checked sorter" v-else-if="sortOption == 3">
+              First not completed
+            </span>
+            <span class="checked sorter" v-else-if="sortOption == 4">
+              First completed
+            </span>
+            <span class="checked sorter" v-else-if="sortOption == 5">
+              First newest
+            </span>
+            <span class="checked sorter" v-else-if="sortOption == 6">
+              First oldest
+            </span>
+            <span class="sorter" v-else-if="sortOption == 0">
+              Unsorted list
+            </span>
+          </transition>
+          <span
+            class="material-icons sorterNavigation"
+            data-v-9c9b7d9e=""
+            @click="sortToggleUp()"
+          >
+            arrow_upward
+          </span>
+        </div>
+        <span
+          v-if="DBexist"
+          @click="$emit('open-modal')"
+          class="material-icons deleteAllDataBtn"
+        >
+          delete_forever
+        </span>
+        <div
+          @click="removeOnCompleteToggle()"
+          :class="{ checkboxChecked: removeOnComplete }"
+          class="checkbox removeOnCompleteBtn"
+        >
+          <transition name="switchSortingUp" mode="out-in">
+            <span class="checked" v-if="removeOnComplete">
+              Remove on complete
+            </span>
+            <span v-else>Don't remove on complete</span>
+          </transition>
+        </div>
+      </div>
+      <div>
+        <transition name="switch" mode="out-in">
+          <div class="projects" v-if="projectsCopy.length">
+            <transition-group
+              appear
+              name="list"
+              @before-enter="beforeEnter"
+              @enter="enter"
+              @before-leave="beforeLeave"
+              @leave="leave"
             >
-              <SingleProject
-                :project="project"
-                :removeOnComplete="removeOnComplete"
-                :below600px="below600px"
-                @completed="onComplete"
-                @removed="onRemove"
-              />
-            </div>
-            <h2 v-else-if="!projectsCopySorter(sortOption).length">
-              Nothing matches
+              <div
+                v-for="(project, index) in projectsCopySorter(sortOption)"
+                v-if="projectsCopySorter(sortOption).length"
+                :key="project.id"
+                :data-index="index"
+                class="project"
+                :class="{ completed: project.completed }"
+              >
+                <SingleProject
+                  :project="project"
+                  :removeOnComplete="removeOnComplete"
+                  :below600px="below600px"
+                  @completed="onComplete"
+                  @removed="onRemove"
+                />
+              </div>
+              <h2 v-else-if="!projectsCopySorter(sortOption).length">
+                Nothing matches
+              </h2>
+            </transition-group>
+          </div>
+          <h2 v-else-if="error" style="color: #b94242">{{ error }}</h2>
+          <div v-else-if="showAllDone && !projectsCopy.length && !error.length">
+            <h2 v-if="DBexist">All done!</h2>
+            <h2 v-if="!DBexist">
+              Click the
+              <span class="material-icons navButton" to="/add">add_box</span>
+              icon to create the database and add the first project/task.
             </h2>
-          </transition-group>
-        </div>
-        <h2 v-else-if="error" style="color: #b94242">{{ error }}</h2>
-        <div v-else-if="showAllDone && !projectsCopy.length && !error.length">
-          <h2 v-if="DBexist">All done!</h2>
-          <h2 v-if="!DBexist">
-            Click the
-            <span class="material-icons navButton" to="/add">add_box</span> icon
-            to create the database and add the first project/task.
-          </h2>
-        </div>
-      </transition>
+          </div>
+        </transition>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -444,5 +449,19 @@ input:checked + .slider:before {
     font-size: 13px;
     width: 210px;
   }
+}
+.component-enter-from {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.component-enter-active {
+  transition: all 0.5s ease;
+}
+.component-leave-to {
+  opacity: 0;
+  transform: scale(0.5);
+}
+.component-leave-active {
+  transition: all 0.5s ease;
 }
 </style>
