@@ -1,7 +1,5 @@
 <template>
-  <transition name="fade" mode="out-in">
-    <Modal v-if="showModal" @close-modal="showModal = false" />
-  </transition>
+  <Modal v-if="showModal" @close-modal="showModal = false" />
   <div class="home">
     <ProjectList
       :projects="projects"
@@ -34,12 +32,3 @@ export default {
   }
 };
 </script>
-<style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s;
-}
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-</style>
