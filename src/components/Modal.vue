@@ -1,25 +1,41 @@
 <template>
   <div class="dimmer" @click.self="$emit('close-modal')">
-    <div class="modalWrapper">
-      <a class="close" @click="$emit('close-modal')" />
-      <div class="content">
-        <h2>Delete all saved data such as database and cookies?</h2>
-        <h4>All tasks will be deleted!</h4>
-        <div class="buttons">
-          <div class="checkbox removeOnCompleteBtn">
-            <span> Yes, remove </span>
-          </div>
-          <div class="checkbox removeOnCompleteBtn">
-            <span> No, leave it  </span>
+    <transition name="component" appear>
+      <div class="modalWrapper">
+        <a class="close" @click="$emit('close-modal')" />
+        <div class="content">
+          <h2>Delete all saved data such as database and cookies?</h2>
+          <h4>All tasks will be deleted!</h4>
+          <div class="buttons">
+            <div @click="removeDB(), removeCookies(), afterRemove()" class="checkbox confirm">
+              <span> Yes, remove </span>
+            </div>
+            <div @click="$emit('close-modal')" class="checkbox reject">
+              <span> No, leave it </span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 <script>
+import router from '@/router';
+import removeAllData from "../composables/removeAllData";
+
 export default {
-  name: "Modal"
+  name: "Modal",
+  setup() {
+    const { removeDB, removeCookies } = removeAllData();
+    function afterRemove() {
+      window.location.reload()
+    }
+    return {
+      removeDB,
+      removeCookies,
+      afterRemove
+    };
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -37,15 +53,12 @@ export default {
 }
 .modalWrapper {
   width: 40%;
-  // height: 40%;
   position: absolute;
-  background-color: #091a28;
   border-radius: 10px;
   border: 2px solid #42b983;
   z-index: 3;
   @media (max-width: 1000px) {
-    width: 80% !important;
-    // height: 50% !important;
+    width: 80%;
   }
 }
 .content {
@@ -54,19 +67,12 @@ export default {
   align-items: center;
   padding: 20px;
   display: flex;
-  // position: absolute;
   height: auto;
-  bottom: 0;
-  top: 0;
-  left: 0;
-  right: 0;
   flex-direction: column;
 }
 .checkbox {
   margin: 5px;
   padding: 6px;
-  // min-width: 125px;
-  // height: 35px;
   font-size: 15px;
   border: 2px solid #808080;
   border-radius: 10px;
@@ -80,6 +86,18 @@ export default {
 .buttons {
   display: flex;
 }
+.confirm,
+.reject {
+  cursor: pointer;
+}
+.confirm:hover {
+  border-color: #b94242;
+  color: #b94242;
+}
+.reject:hover {
+  border-color: #42b942;
+  color: #42b942;
+}
 .close {
   cursor: pointer;
   position: absolute;
@@ -87,7 +105,6 @@ export default {
   top: 0;
   width: 30px;
   height: 30px;
-  opacity: 0.5;
   margin: 10px;
   z-index: 1;
 }
@@ -97,18 +114,30 @@ export default {
   left: 13px;
   content: " ";
   height: 30px;
-  width: 2px;
-  background-color: rgb(255, 255, 255);
+  width: 3px;
 }
 .close:hover:before,
 .close:hover:after {
   transition: 0.2s;
-  background-color: #42b983;
 }
 .close:before {
   transform: rotate(45deg);
 }
 .close:after {
   transform: rotate(-45deg);
+}
+.component-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.component-enter-active {
+  transition: all 0.5s ease;
+}
+.component-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+.component-leave-active {
+  transition: all 0.5s ease;
 }
 </style>
