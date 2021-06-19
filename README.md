@@ -1,4 +1,4 @@
-# projecter
+# Projecter
 
 ## Project setup
 ```
